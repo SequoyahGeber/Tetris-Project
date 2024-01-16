@@ -38,7 +38,12 @@ intervalId = null
 function pieceMove() {
     console.log("Moved");
     console.log(position);
-if (currentPiece !== null) {
+    if (position.pos1 >= 191 || position.pos2 >= 191 || position.pos3 >= 191 || position.pos4 >= 191) {
+    
+    saveGrid()
+
+    
+}else if (currentPiece !== null) {
     resetGrid()
     position.pos1 += 10;
     position.pos2 += 10;
@@ -50,18 +55,14 @@ if (currentPiece !== null) {
     document.getElementById(position.pos4).style.backgroundColor = pieceColor;
     
 }
-if (position.pos1 >= 191 || position.pos2 >= 191 || position.pos3 >= 191 || position.pos4 >= 191) {
-    saveGrid()
-    setPiece()
-    
-}
+
   }
 
 
 
 function setPiece(){
 position = { pos1: null, pos2: null, pos3: null, pos4: null }; 
-   currentPiece = Math.floor(Math.random() * 6);
+   currentPiece = Math.floor(Math.random() * 7);
    console.log(currentPiece)
    if (currentPiece === 0) {
     // Tetris piece "I"
@@ -142,18 +143,79 @@ function resetGrid() {
     })
     }
 
+  let orange = [];
+  let cyan = [];
+  let purple = [];
+  let blue = [];
+  let yellow = [];
+  let green = [];
+  let red = [];
+  let currentArray;
 
-   function saveGrid() {
-let orange = [];
-let cyan = [];
-let purple = [];
-let blue = [];
-let yellow = [];
-let green = [];
-let red = [];
+  function saveGrid() {
+    console.log("Save Run");
 
-for (i=0; i<Array.length; i++){
-document.getElementById
+    if (pieceColor == 'orange') {
+        orange.push(position);
+        console.log(orange);
+        currentArray = orange;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'cyan') {
+        cyan.push(position);
+        console.log(cyan);
+        currentArray = cyan;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'purple') {
+        purple.push(position);
+        console.log(purple);
+        currentArray = purple;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'blue') {
+        blue.push(position);
+        console.log(blue);
+        currentArray = blue;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'yellow') {
+        yellow.push(position);
+        console.log(yellow);
+        currentArray = yellow;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'green') {
+        green.push(position);
+        console.log(green);
+        currentArray = green;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    } else if (pieceColor == 'red') {
+        red.push(position);
+        console.log(red);
+        currentArray = red;
+        console.log(currentArray);
+        console.log('currentArray Set');
+        console.log("Positions Added");
+        setPiece();
+    }
+
+for (i=0; i<=currentArray.length; i++){
+let x = document.getElementById(currentArray[i])
+x.style.backgroundColor = ''
 
 
 }
