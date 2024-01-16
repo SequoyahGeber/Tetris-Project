@@ -1,0 +1,1 @@
+{"version":3,"sourceRoot":"","sources":["partials/_header.scss","partials/variables/_colors.scss","partials/_main.scss"],"names":[],"mappings":"AAAA;EACI;;AAGI;EACI,OCQF;;ADNF;EACI;EACA;EACA,kBCEF;;;ACZV;EACI;EACA,kBDFK;;ACIL;EACI;EACA;EACA;;AAEA;EACI;EACA,kBDTH;ECUG;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA;;AAEA;EACI;EACA;EACA;EACA;EACA;EACA;EACA","file":"style.css"}

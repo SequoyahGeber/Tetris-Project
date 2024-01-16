@@ -1,0 +1,45 @@
+body {
+  height: 100px;
+}
+body header h1 {
+  color: #ebcb8b;
+}
+body header button {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #d08770;
+}
+
+body {
+  text-align: center;
+  background-color: #2e3440;
+}
+body main {
+  margin: auto;
+  text-align: center;
+  max-width: 1000px;
+}
+body main div.gameContainer {
+  margin: auto;
+  background-color: #434c5e;
+  width: 50%;
+  height: auto;
+}
+body main div.gameContainer div.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  margin: 0;
+  padding: 0;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+body main div.gameContainer div.grid div {
+  background-color: black;
+  border: 1px solid cyan;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}/*# sourceMappingURL=style.css.map */
