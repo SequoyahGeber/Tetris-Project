@@ -230,20 +230,21 @@ function resetGrid() {
 
 
     function updateGrid(){
-
+        resetGrid()
         updateArray.push(orange,cyan,purple,blue,yellow,green,red);
         
 
         for (let i = 0; i < updateArray.length; i++) {
             let x = updateArray[i]
+            let z = i
             console.log(x)
             for(let i = 0; i < x.length; i++) {
             let y = x[i]
             console.log(y);
-             document.getElementById(y.pos1).style.backgroundColor = colorsArray[i];
-             document.getElementById(y.pos2).style.backgroundColor = colorsArray[i];
-             document.getElementById(y.pos3).style.backgroundColor = colorsArray[i];
-             document.getElementById(y.pos4).style.backgroundColor = colorsArray[i];
+             document.getElementById(y.pos1).style.backgroundColor = colorsArray[z];
+             document.getElementById(y.pos2).style.backgroundColor = colorsArray[z];
+             document.getElementById(y.pos3).style.backgroundColor = colorsArray[z];
+             document.getElementById(y.pos4).style.backgroundColor = colorsArray[z];
            
         }
     }
