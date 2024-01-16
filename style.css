@@ -19,13 +19,24 @@ body main {
   text-align: center;
   max-width: 1000px;
 }
-body main div.gameContainer {
-  margin: auto;
+body main div#wrapper {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  color: #ebcb8b;
+}
+body main div#wrapper div#divLeft {
+  grid-column: 1;
+}
+body main div#wrapper div#divRight {
+  grid-column: 3;
+}
+body main div#wrapper div.gameContainer {
+  grid-column: 2;
   background-color: #434c5e;
   width: 50%;
   height: auto;
 }
-body main div.gameContainer div.grid {
+body main div#wrapper div.gameContainer div.grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(20, 1fr);
@@ -34,7 +45,7 @@ body main div.gameContainer div.grid {
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 }
-body main div.gameContainer div.grid div {
+body main div#wrapper div.gameContainer div.grid div {
   background-color: black;
   border: 1px solid cyan;
   width: 50px;

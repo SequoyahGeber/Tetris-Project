@@ -9,16 +9,21 @@ body {
         text-align: center;
         max-width: 1000px;
 
-        div {
+        div#wrapper {
             display: grid !important;
             grid-template-columns: repeat(3, 1fr);
+            color: $color14;
 
-            div.divLeft {
+            div#divLeft {
                 grid-column: 1;
             }
 
+            div#divRight {
+                grid-column: 3;
+            }
+
             div.gameContainer {
-                margin: auto;
+                grid-column: 2;
                 background-color: $color3;
                 width: 50%;
                 height: auto;
