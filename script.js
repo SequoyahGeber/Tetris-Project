@@ -15,7 +15,7 @@ let shapes = [
   {
     name: "T",
     color: "purple",
-    shape: [1, 10, 1 + 10, 2 + 10],
+    shape: [5, 5 + 10, 5 + 1 + 10, 2 + 5 + 10],
   },
   {
     name: "L",
@@ -45,47 +45,64 @@ function wrapToggle() {
     if (started) {
       clearInterval(intervalId);
     } else {
-      intervalId = setInterval(computePiece, 100);
+      intervalId = setInterval(renderBoard, 500);
     }
     started = !started;
   }
   toggleGame();
 }
+// Render board purpose is to render the board state to the DOM based on boardState
 
-function clearBoard() {
-  for (let i = 0; i < 200; i++) {
-    document.getElementById(i).style.background = "black";
-  }
+function entry() {
+  console.log("entry");
+  activePiece = shapes[Math.floor(Math.random() * shapes.length)];
 }
+entry();
 
 function renderBoard() {
+  console.log("rendering board");
   clearBoard();
-  for (let key in boardState) {
-    document.getElementById(key).style.background = boardState[key];
-  }
+  giveNewPiecePosition();
+  colorBoard();
+  boardState.forEach((cell) => {
+    const cellDom = document.getElementById(cell.id);
+    cellDom.style.backgroundColor = cell.color;
+  });
 }
 
-function computePiece() {
-  if (!activePiece) {
-    const randomPiece = shapes[Math.floor(Math.random() * shapes.length)];
-    activePiece = randomPiece;
-    const pieceNewPos = updateBoardState(activePiece);
-    renderBoard(pieceNewPos);
-  } else {
-    const pieceNewPos = updateBoardState(activePiece);
-    if (pieceNewPos.shape[3] >= 190) {
-      activePiece = null;
-      renderBoard(pieceNewPos);
-      return;
+function colorBoard() {
+  console.log("coloring board")
+  activePiece.shape.forEach((cellId) => {
+    const cell = boardState.find((cell) => cell.id === cellId);
+    if (cell) {
+      cell.color = activePiece.color;
+      cell.active = true;
     }
-  }
-  renderBoard();
+  });
 }
 
-function updateBoardState(piece) {
-  for (let i = 0; i < piece.shape.length; i++) {
-    piece.shape[i] += 10;
-    boardState[piece.shape[i]] = piece.color;
+function clearBoard() {
+  console.log("clearing board");
+  boardState.forEach((cell) => {
+    cell.color = "black";
+    cell.active = false;
+  });
+}
+
+function giveNewPiecePosition() {
+  if (activePiece.shape.some((value) => value >= 190)) {
+    console.log("getting new piece position");
+    for (let cell in boardState) {
+      if (boardState[cell].active) {
+        boardState[cell].active = false;
+      }
+    }
+  } else {
+    console.log("moving piece down")
+    activePiece.shape = activePiece.shape.map(value => {
+      const newValue = value + 10;
+      console.log(newValue);
+      return newValue;
+    });
   }
-  return piece;
 }
