@@ -139,50 +139,6 @@ function saveGrid() {
   colorArgRef.push(position);
   currentArray = colorArgRef;
   setPiece();
-
-  // if (pieceColor == "orange") {
-  //   orange.push(position);
-  //   console.log(orange);
-  //   currentArray = orange;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "cyan") {
-  //   cyan.push(position);
-  //   console.log(cyan);
-  //   currentArray = cyan;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "purple") {
-  //   purple.push(position);
-  //   console.log(purple);
-  //   currentArray = purple;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "blue") {
-  //   blue.push(position);
-  //   console.log(blue);
-  //   currentArray = blue;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "yellow") {
-  //   yellow.push(position);
-  //   console.log(yellow);
-  //   currentArray = yellow;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "green") {
-  //   green.push(position);
-  //   console.log(green);
-  //   currentArray = green;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // } else if (pieceColor == "red") {
-  //   red.push(position);
-  //   console.log(red);
-  //   currentArray = red;
-  //   console.log("Positions Added");
-  //   setPiece();
-  // }
 }
 let occupied = [];
 function updateGrid() {
@@ -202,18 +158,6 @@ function updateGrid() {
           occupied.push(y[pos]);
         }
       }
-      // if (!occupied.includes(y.pos1)) {
-      //   occupied.push(y.pos1);
-      // }
-      // if (!occupied.includes(y.pos2)) {
-      //   occupied.push(y.pos2);
-      // }
-      // if (!occupied.includes(y.pos3)) {
-      //   occupied.push(y.pos3);
-      // }
-      // if (!occupied.includes(y.pos4)) {
-      //   occupied.push(y.pos4);
-      // }
     }
   }
   console.log("Occupied Positions:", occupied);
@@ -246,38 +190,6 @@ function handleKeyDown(e) {
 }
 
 document.addEventListener("keydown", handleKeyDown);
-
-//   if (event.key === "ArrowLeft") {
-//     position.pos1 -= 1;
-//     position.pos2 -= 1;
-//     position.pos3 -= 1;
-//     position.pos4 -= 1;
-//     pieceMove();
-//     console.log("Left arrow key pressed");
-//   } else if (event.key === "ArrowRight") {
-//     position.pos1 += 1;
-//     position.pos2 += 1;
-//     position.pos3 += 1;
-//     position.pos4 += 1;
-//     pieceMove();
-//     console.log("Right arrow key pressed");
-//   } else if (event.key === "ArrowDown") {
-//     position.pos1 += 10;
-//     position.pos2 += 10;
-//     position.pos3 += 10;
-//     position.pos4 += 10;
-//     pieceMove();
-//     console.log("Down arrow key pressed");
-//   } else if (event.key === "a") {
-//     rotatePieceLeft()
-//     pieceMove();
-//     console.log("Left arrow key pressed");
-//   } else if (event.key === "d") {
-//     // rotatePieceRight();
-//     pieceMove();
-//     console.log("Right arrow key pressed");
-//   }
-// });
 
 function rotatePieceLeft() {
   const currentCurrentPiece = currentPiece;
