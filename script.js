@@ -37,7 +37,6 @@ intervalId = null;
 function pieceMove() {
   console.log("Moved");
   if(occupied.includes(position.pos1 + 10) || occupied.includes(position.pos2 + 10) || occupied.includes(position.pos3 + 10) || occupied.includes(position.pos4 + 10)) {
-   console.log('yes')
    saveGrid();
 
 }
