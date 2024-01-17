@@ -5,20 +5,13 @@ let position = {
   pos3: null,
   pos4: null,
 };
-let currentPiece = null;
-let pieceColor = null;
+let currentPiece;
+let pieceColor;
 let started;
 let intervalId;
 let orange = [];
-let cyan = [];
-let purple = [];
-let blue = [];
-let yellow = [];
-let green = [];
-let red = [];
 let currentArray;
-let colorSet;
-let updateArray = [];
+let occupied = [];
 let colorsArray = [
   "orange",
   "cyan",
@@ -28,7 +21,6 @@ let colorsArray = [
   "green",
   "red",
 ];
-let occupied = [];
 let colorColorArrDic = {
   orange: [],
   cyan: [],
@@ -68,8 +60,7 @@ function pieceMove() {
 
   if (Object.values(position).some((pos) => pos >= 191)) {
     saveGrid();
-  } else if (currentPiece !== null) {
-    // resetGrid();
+  } else if (currentPiece >= 0) {
     updateGrid();
     for (let pos in position) {
       position[pos] += 10;
