@@ -1,4 +1,3 @@
-let gamePieces = [0, 1, 2, 3, 4, 5, 6];
 let position = {
   pos1: null,
   pos2: null,
@@ -9,7 +8,6 @@ let currentPiece;
 let pieceColor;
 let started;
 let intervalId;
-let orange = [];
 let currentArray;
 let occupied = [];
 let colorsArray = [
@@ -48,16 +46,26 @@ function toggleGame() {
   started = !started;
 }
 
+function loseGame() {
+  toggleGame();
+  alert("You lose, reload page to continue");
+}
+
 function pieceMove() {
   console.log("Moved");
   if (
+    Object.values(position).some((pos) => {
+      return occupied.includes(pos + 10) && pos <= 10;
+    })
+  ) {
+    loseGame();
+  } else if (
     Object.values(position).some((pos) => {
       return occupied.includes(pos + 10);
     })
   ) {
     saveGrid();
   }
-
   if (Object.values(position).some((pos) => pos >= 191)) {
     saveGrid();
   } else if (currentPiece >= 0) {
@@ -124,7 +132,7 @@ function updateGrid() {
           occupied.push(i[pos]);
         }
       }
-    })
+    });
   }
   console.log("Occupied Positions:", occupied);
 }
