@@ -15,7 +15,7 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   if (started !== true) {
-    intervalId = setInterval(pieceMove, 5);
+    intervalId = setInterval(pieceMove, 1000);
     started = true;
     console.log("Game Started");
   }
@@ -36,7 +36,12 @@ intervalId = null;
 
 function pieceMove() {
   console.log("Moved");
-  console.log(position);
+  if(occupied.includes(position.pos1 + 10) || occupied.includes(position.pos2 + 10) || occupied.includes(position.pos3 + 10) || occupied.includes(position.pos4 + 10)) {
+   console.log('yes')
+   saveGrid();
+
+}
+
   if (
     position.pos1 >= 191 ||
     position.pos2 >= 191 ||
@@ -45,7 +50,8 @@ function pieceMove() {
   ) {
     saveGrid();
   } else if (currentPiece !== null) {
-    resetGrid();
+    // resetGrid();
+    updateGrid()
     position.pos1 += 10;
     position.pos2 += 10;
     position.pos3 += 10;
@@ -219,22 +225,75 @@ function saveGrid() {
     setPiece();
   }
 }
-
+let occupied = []
 function updateGrid() {
   resetGrid();
+  updateArray = [];
+  occupied = [];
   updateArray.push(orange, cyan, purple, blue, yellow, green, red);
 
   for (let i = 0; i < updateArray.length; i++) {
     let x = updateArray[i];
     let z = i;
-    console.log(x);
-    for (let i = 0; i < x.length; i++) {
-      let y = x[i];
-      console.log(y);
+    for (let j = 0; j < x.length; j++) {
+      let y = x[j];
       document.getElementById(y.pos1).style.backgroundColor = colorsArray[z];
       document.getElementById(y.pos2).style.backgroundColor = colorsArray[z];
       document.getElementById(y.pos3).style.backgroundColor = colorsArray[z];
       document.getElementById(y.pos4).style.backgroundColor = colorsArray[z];
+      if (!occupied.includes(y.pos1)) {
+        occupied.push(y.pos1);
+      }
+      if (!occupied.includes(y.pos2)) {
+        occupied.push(y.pos2);
+      }
+      if (!occupied.includes(y.pos3)) {
+        occupied.push(y.pos3);
+      }
+      if (!occupied.includes(y.pos4)) {
+        occupied.push(y.pos4);
+      }
     }
   }
+  console.log("Occupied Positions:", occupied);
 }
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "ArrowLeft") {
+        position.pos1 -= 1
+        position.pos2 -= 1
+        position.pos3 -= 1
+        position.pos4 -= 1
+        pieceMove()
+      console.log("Left arrow key pressed");
+    } else if (event.key === "ArrowRight") {
+        position.pos1 += 1
+        position.pos2 += 1
+        position.pos3 += 1
+        position.pos4 += 1
+        pieceMove()
+      console.log("Right arrow key pressed");
+    }
+    else if (event.key === "ArrowDown") {
+        position.pos1 += 10
+        position.pos2 += 10
+        position.pos3 += 10
+        position.pos4 += 10
+        pieceMove()
+      console.log("Down arrow key pressed");
+    }
+    if (event.key === "a") {
+        position.pos1 += 9
+        position.pos2 += 11
+        position.pos4 -= 21
+        pieceMove()
+      console.log("Left arrow key pressed");
+    } else if (event.key === "d") {
+        position.pos1 += 1
+        position.pos2 += 1
+        position.pos3 += 1
+        position.pos4 += 1
+        pieceMove()
+      console.log("Right arrow key pressed");
+    }
+  });

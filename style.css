@@ -53,4 +53,10 @@ body main div#wrapper div.gameContainer div.grid div {
   display: inline-block;
   margin: 0;
   padding: 0;
+}
+
+footer {
+  color: #ebcb8b;
+  margin: 2rem 0;
+  padding: 1rem;
 }/*# sourceMappingURL=style.css.map */
