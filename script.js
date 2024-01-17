@@ -36,10 +36,14 @@ intervalId = null;
 
 function pieceMove() {
   console.log("Moved");
-  if(occupied.includes(position.pos1 + 10) || occupied.includes(position.pos2 + 10) || occupied.includes(position.pos3 + 10) || occupied.includes(position.pos4 + 10)) {
-   saveGrid();
-
-}
+  if (
+    occupied.includes(position.pos1 + 10) ||
+    occupied.includes(position.pos2 + 10) ||
+    occupied.includes(position.pos3 + 10) ||
+    occupied.includes(position.pos4 + 10)
+  ) {
+    saveGrid();
+  }
 
   if (
     position.pos1 >= 191 ||
@@ -50,7 +54,7 @@ function pieceMove() {
     saveGrid();
   } else if (currentPiece !== null) {
     // resetGrid();
-    updateGrid()
+    updateGrid();
     position.pos1 += 10;
     position.pos2 += 10;
     position.pos3 += 10;
@@ -163,68 +167,47 @@ function saveGrid() {
     orange.push(position);
     console.log(orange);
     currentArray = orange;
-    colorSet = "orange";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "cyan") {
     cyan.push(position);
     console.log(cyan);
     currentArray = cyan;
-    colorSet = "cyan";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "purple") {
     purple.push(position);
     console.log(purple);
     currentArray = purple;
-    colorSet = "purple";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "blue") {
     blue.push(position);
     console.log(blue);
     currentArray = blue;
-    colorSet = "blue";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "yellow") {
     yellow.push(position);
     console.log(yellow);
     currentArray = yellow;
-    colorSet = "yellow";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "green") {
     green.push(position);
     console.log(green);
     currentArray = green;
-    colorSet = "green";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   } else if (pieceColor == "red") {
     red.push(position);
     console.log(red);
     currentArray = red;
-    colorSet = "red";
-    console.log(currentArray);
-    console.log("currentArray Set");
     console.log("Positions Added");
     setPiece();
   }
 }
-let occupied = []
+let occupied = [];
 function updateGrid() {
   resetGrid();
   updateArray = [];
@@ -257,42 +240,40 @@ function updateGrid() {
   console.log("Occupied Positions:", occupied);
 }
 
-document.addEventListener("keydown", function(event) {
-    if (event.key === "ArrowLeft") {
-        position.pos1 -= 1
-        position.pos2 -= 1
-        position.pos3 -= 1
-        position.pos4 -= 1
-        pieceMove()
-      console.log("Left arrow key pressed");
-    } else if (event.key === "ArrowRight") {
-        position.pos1 += 1
-        position.pos2 += 1
-        position.pos3 += 1
-        position.pos4 += 1
-        pieceMove()
-      console.log("Right arrow key pressed");
-    }
-    else if (event.key === "ArrowDown") {
-        position.pos1 += 10
-        position.pos2 += 10
-        position.pos3 += 10
-        position.pos4 += 10
-        pieceMove()
-      console.log("Down arrow key pressed");
-    }
-    if (event.key === "a") {
-        position.pos1 += 9
-        position.pos2 += 11
-        position.pos4 -= 21
-        pieceMove()
-      console.log("Left arrow key pressed");
-    } else if (event.key === "d") {
-        position.pos1 += 1
-        position.pos2 += 1
-        position.pos3 += 1
-        position.pos4 += 1
-        pieceMove()
-      console.log("Right arrow key pressed");
-    }
-  });
+document.addEventListener("keydown", function (event) {
+  if (event.key === "ArrowLeft") {
+    position.pos1 -= 1;
+    position.pos2 -= 1;
+    position.pos3 -= 1;
+    position.pos4 -= 1;
+    pieceMove();
+    console.log("Left arrow key pressed");
+  } else if (event.key === "ArrowRight") {
+    position.pos1 += 1;
+    position.pos2 += 1;
+    position.pos3 += 1;
+    position.pos4 += 1;
+    pieceMove();
+    console.log("Right arrow key pressed");
+  } else if (event.key === "ArrowDown") {
+    position.pos1 += 10;
+    position.pos2 += 10;
+    position.pos3 += 10;
+    position.pos4 += 10;
+    pieceMove();
+    console.log("Down arrow key pressed");
+  } else if (event.key === "a") {
+    position.pos1 += 9;
+    position.pos2 += 11;
+    position.pos4 -= 21;
+    pieceMove();
+    console.log("Left arrow key pressed");
+  } else if (event.key === "d") {
+    position.pos1 += 1;
+    position.pos2 += 1;
+    position.pos3 += 1;
+    position.pos4 += 1;
+    pieceMove();
+    console.log("Right arrow key pressed");
+  }
+});
