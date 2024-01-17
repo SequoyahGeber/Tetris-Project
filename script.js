@@ -3,18 +3,24 @@ const playBtn = document.getElementById("play-btn");
 
 let boardState = [];
 let activePiece;
-
+let occupied = [];
+// order for shape of shapes, highest, ..., lowest.
 let shapes = [
   {
     name: "T",
     color: "purple",
-    shape: [5, 5 + 10, 5 + 1 + 10, 2 + 5 + 10],
+    shape: [5, 14, 15, 16],
   },
   {
     name: "L",
     color: "orange",
-    shape: [0, 10, 20, 21],
+    shape: [4, 14, 24, 25],
   },
+  {
+    name: "J",
+    color: "blue",
+    shape: [1+4, 11+4, 20+4, 21+4],
+  }
 ];
 
 function initPageState() {
@@ -54,14 +60,15 @@ entry();
 
 function renderBoard() {
   console.log("rendering board");
-  clearBoard();
   giveNewPiecePosition();
   colorBoard();
   boardState.forEach((cell) => {
     const cellDom = document.getElementById(cell.id);
     cellDom.style.backgroundColor = cell.color;
   });
+  window.requestAnimationFrame(renderBoard);
 }
+window.requestAnimationFrame(renderBoard);
 
 function colorBoard() {
   console.log("coloring board")
@@ -83,16 +90,20 @@ function clearBoard() {
 }
 
 function giveNewPiecePosition() {
-  if (activePiece.shape.some((value) => value >= 190)) {
+  if (activePiece.shape.some((value) => value >= 190 || occupied.includes(value + 10))) {
     console.log("getting new piece position");
+    occupied = occupied.concat(activePiece.shape);
     for (let cell in boardState) {
       if (boardState[cell].active) {
         boardState[cell].active = false;
       }
     }
+    activePiece = null;
+    entry();
   } else {
     console.log("moving piece down")
     activePiece.shape = activePiece.shape.map(value => {
+      boardState.find((cell) => {if(cell.id === value){cell.color = "black"}});
       const newValue = value + 10;
       console.log(newValue);
       return newValue;
