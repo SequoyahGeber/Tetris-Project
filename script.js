@@ -2,13 +2,6 @@ const cellContainer = document.getElementById("cell-container");
 const playBtn = document.getElementById("play-btn");
 
 let boardState = [];
-// board sate has form:
-// [
-//   {id: 0, color: "black", active: false},
-//   ...
-// ]
-// Where id is the cell number, and active represents if the cell is part of the active piece
-
 let activePiece;
 
 let shapes = [
