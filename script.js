@@ -86,9 +86,16 @@ function createPiece() {
 
 function movePieceDown() {
   console.log("move piece down has run");
-  let newIndex = activePiece.shape[3] + 10;
+  // let newIndex = activePiece.shape[3] + 10;
   // loop the values, check for collision with non-active
-  if (newIndex >= 200 || boardState[newIndex].occupied) {
+  // if (newIndex >= 200 || boardState[newIndex].occupied) 
+  if (
+    activePiece.shape.some((value) => {
+      const newIndex = value + 10;
+      return (newIndex >= 200 || (boardState[newIndex].occupied && !boardState[newIndex].active))
+    })
+  )
+  {
     console.log("YES COLLIDE ON NEXT MOVE");
     activePiece.shape.forEach((value) => {
       boardState[value].occupied = true;
@@ -100,11 +107,13 @@ function movePieceDown() {
     console.log("NO COLLIDE ON NEXT MOVE");
     activePiece.shape.forEach((value) => {
       boardState[value].occupied = false;
+      boardState[value].active = false;
       boardState[value].color = "black";
     });
     activePiece.shape = activePiece.shape.map((cell) => cell + 10);
     activePiece.shape.forEach((value) => {
       boardState[value].occupied = true;
+      boardState[value].active = true;
       boardState[value].color = activePiece.color;
     });
     console.log("Piece has been moved down");
