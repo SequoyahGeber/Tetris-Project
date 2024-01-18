@@ -15,10 +15,10 @@ playBtn.addEventListener("click", () => {
   console.log("play button has been clicked");
   if (!started) {
     intervalId = setInterval(gameLoop, 1000);
-    animationId = window.requestAnimationFrame(updateBoard)
+    animationId = window.requestAnimationFrame(updateBoard);
   } else {
     clearInterval(intervalId);
-    window.cancelAnimationFrame(animationId)
+    window.cancelAnimationFrame(animationId);
   }
   started = !started;
 });
@@ -30,8 +30,15 @@ function handleKeyPress(e) {
         newCellStat(value, true, true, "black");
       });
       activePiece.shape = activePiece.shape.map((value) => (value += amt));
-      console.log("moved by: ", amt, " active piece now has: ", activePiece.shape);
-      updateBoard();
+      activePiece.shape.forEach((value) => {
+        newCellStat(value, false, true, activePiece.color);
+      });
+      console.log(
+        "moved by: ",
+        amt,
+        " active piece now has: ",
+        activePiece.shape
+      );
     }
   }
   const key = e.key;
