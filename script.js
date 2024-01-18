@@ -9,6 +9,7 @@ let position = {
 let currentPiece = null;
 let pieceColor = null;
 let started;
+let score = 0;
 
 let startButton = document.getElementById("startButton");
 startButton.addEventListener("click", startGame);
@@ -263,4 +264,13 @@ function rotatePieceLeft() {
     //   const fourthRotationZ = [11, 21, 22, 12];
     //   break;
   }
+}
+
+function calculateScore(completedLines) {
+  const scoreMultiplier = [0, 40, 100, 300, 1200];
+  score += scoreMultiplier[completedLines] || 0;
+}
+
+function setScore() {
+  document.getElementById("score").innerText = newScore;
 }

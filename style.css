@@ -2,10 +2,11 @@ body {
   height: 100px;
 }
 body header h1 {
+  font-size: 3rem;
   color: #ebcb8b;
 }
 body header button {
-  margin: 1rem;
+  margin: 2rem;
   padding: 0.5rem 1rem;
   background-color: #d08770;
 }
@@ -22,16 +23,27 @@ body main {
 body main div#wrapper {
   display: grid !important;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
   color: #ebcb8b;
 }
 body main div#wrapper div#divLeft {
   grid-column: 1;
+  grid-row: 1;
+}
+body main div#wrapper div#divLeft div#score {
+  margin: auto;
+  border: 1px solid #ebcb8b;
+  width: 100px;
+  height: 75px;
 }
 body main div#wrapper div#divRight {
   grid-column: 3;
+  grid-row: 1;
 }
 body main div#wrapper div.gameContainer {
+  margin-top: 1.5rem;
   grid-column: 2;
+  grid-row: 1;
   background-color: #434c5e;
   width: 50%;
   height: auto;
@@ -44,12 +56,13 @@ body main div#wrapper div.gameContainer div.grid {
   padding: 0;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  box-shadow: 100px 0px 200px 50px #b48ead;
 }
 body main div#wrapper div.gameContainer div.grid div {
   background-color: black;
   border: 1px solid #8fbcbb;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   display: inline-block;
   margin: 0;
   padding: 0;
