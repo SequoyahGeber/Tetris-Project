@@ -73,14 +73,12 @@ function wrapToggle() {
 // Render board purpose is to render the board state to the DOM based on boardState
 
 function entry() {
-  console.log("entry");
   activePiece = shapes[Math.floor(Math.random() * shapes.length)];
   renderBoard();
 }
 entry();
 
 function renderBoard() {
-  console.log("rendering board");
   giveNewPiecePosition();
   colorBoard();
   boardState.forEach((cell) => {
@@ -90,7 +88,6 @@ function renderBoard() {
 }
 
 function colorBoard() {
-  console.log("coloring board")
   activePiece.shape.forEach((cellId) => {
     const cell = boardState.find((cell) => cell.id === cellId);
     if (cell) {
@@ -101,7 +98,6 @@ function colorBoard() {
 }
 
 function clearBoard() {
-  console.log("clearing board");
   boardState.forEach((cell) => {
     cell.color = "black";
     cell.active = false;
@@ -109,11 +105,7 @@ function clearBoard() {
 }
 
 function giveNewPiecePosition() {
-  if (!activePiece) {
-    activePiece = shapes[Math.floor(Math.random() * shapes.length)];
-  }
   if (activePiece.shape.some((value) => value >= 190 || occupied.includes(value + 10))) {
-    console.log("getting new piece position");
     occupied = occupied.concat(activePiece.shape);
     for (let cell in boardState) {
       if (boardState[cell].active) {
@@ -127,7 +119,6 @@ function giveNewPiecePosition() {
     activePiece.shape = activePiece.shape.map(value => {
       boardState.find((cell) => {if(cell.id === value){cell.color = "black"}});
       const newValue = value + 10;
-      console.log(newValue);
       return newValue;
     });
   }
