@@ -1,50 +1,12 @@
-const cellContainer = document.getElementById("cell-container");
+import { shapes } from "./shapes.mjs";
+
 const playBtn = document.getElementById("play-btn");
 
 let boardState = [];
 let activePiece = undefined;
-let occupied = [];
-// order for shape of shapes, highest, ..., lowest.
-const shapes = [
-  {
-    name: "T",
-    color: "purple",
-    shape: [5, 14, 15, 16],
-  },
-  {
-    name: "L",
-    color: "orange",
-    shape: [4, 14, 24, 25],
-  },
-  {
-    name: "J",
-    color: "blue",
-    shape: [5, 15, 24, 25],
-  },
-  {
-    name: "S",
-    color: "green",
-    shape: [4, 5, 15, 16],
-  },
-  {
-    name: "Z",
-    color: "red",
-    shape: [5, 6, 14, 15],
-  },
-  {
-    name: "I",
-    color: "cyan",
-    shape: [4, 14, 24, 34],
-  },
-  {
-    name: "O",
-    color: "yellow",
-    shape: [4, 5, 14, 15],
-  },
-];
-
 let intervalId;
 let started = false;
+
 playBtn.addEventListener("click", () => {
   console.log("play button has been clicked");
   if (!started) {
@@ -86,9 +48,6 @@ function createPiece() {
 
 function movePieceDown() {
   console.log("move piece down has run");
-  // let newIndex = activePiece.shape[3] + 10;
-  // loop the values, check for collision with non-active
-  // if (newIndex >= 200 || boardState[newIndex].occupied) 
   if (
     activePiece.shape.some((value) => {
       const newIndex = value + 10;
