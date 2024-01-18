@@ -43,112 +43,76 @@ const shapes = [
   },
 ];
 
-function initPageState() {
-  for (let i = 0; i < 200; i++) {
-    boardState.push({ id: i, color: "black", active: false });
-    const cell = document.createElement("div");
-    cell.className = "grid";
-    cell.id = i;
-    cellContainer.appendChild(cell);
-  }
-}
-initPageState();
-
-document.addEventListener("keydown", handleKeyDown);
-playBtn.addEventListener("click", wrapToggle);
-
 let intervalId;
 let started = false;
-function wrapToggle() {
-  function toggleGame() {
-    if (started) {
-      clearInterval(intervalId);
-    } else {
-      intervalId = setInterval(renderBoard, 1000);
-    }
-    started = !started;
+playBtn.addEventListener("click", () => {
+  console.log("play button has been clicked");
+  if (!started) {
+    intervalId = setInterval(gameLoop, 1000);
+  } else {
+    clearInterval(intervalId);
   }
-  toggleGame();
-}
-function handleKeyDown(e) {
-  const key = e.key;
-  function updatePos(amt) {
-    activePiece.shape = activePiece.shape.map(value => value + amt);
-    activePiece.shape.forEach(value => {
-      boardState.forEach(cell => {
-        if (cell.id === value) {
-          cell.color = "black";
-          cell.active = false;
-        }
-      });
-    });
-    renderBoard();
-  }
-  switch (key) {
-    case "ArrowLeft":
-      updatePos(-1);
-      break;
-    case "ArrowRight":
-      updatePos(1);
-      break;
-    case "ArrowDown":
-      updatePos();
-      break;
-    case "ArrowUp":
-      rotate();
-      break;
-    default:
-      break;
-  }
-}
+  started = !started;
+});
 
-function renderBoard() {
-  console.log(shapes);
+function initBoardState() {
+  console.log("init board state has run");
+  for (let i = 0; i < 200; i++) {
+    boardState.push({ id: i, color: "black", occupied: false });
+  }
+}
+initBoardState();
+
+function gameLoop() {
+  console.log("game loop has run");
   if (activePiece === undefined) {
-    activePiece = JSON.parse(
-      JSON.stringify(shapes[Math.floor(Math.random() * 7)])
-    );
+    console.log("There was no active piece, creating one.");
+    activePiece = createPiece();
+  } else {
+    console.log("There was an active piece, moving it down.");
+    movePieceDown();
   }
-  giveNewPiecePosition();
-  colorBoard();
-  boardState.forEach((cell) => {
-    const cellDom = document.getElementById(cell.id);
-    cellDom.style.backgroundColor = cell.color;
-  });
+  updateBoard();
 }
 
-function colorBoard() {
-  activePiece.shape.forEach((cellId) => {
-    const cell = boardState.find((cell) => cell.id === cellId);
-    if (cell) {
-      cell.color = activePiece.color;
-      cell.active = true;
-    }
-  });
+function createPiece() {
+  console.log("create piece has run");
+  const randomShape = structuredClone(
+    shapes[Math.floor(Math.random() * shapes.length)]
+  );
+  console.log("Create piece created: ", randomShape);
+  return randomShape;
 }
 
-function giveNewPiecePosition() {
-  if (
-    activePiece.shape.some((value) => {
-      return value >= 190 || occupied.includes(value + 10);
-    })
-  ) {
-    occupied = occupied.concat(activePiece.shape);
-    boardState.forEach((cell) => {
-      if (cell.active) {
-        cell.active = false;
-      }
+function movePieceDown() {
+  console.log("move piece down has run");
+  let newIndex = activePiece.shape[3] + 10;
+  if (newIndex >= 200 || boardState[newIndex].occupied) {
+    console.log("YES COLLIDE ON NEXT MOVE");
+    activePiece.shape.forEach((value) => {
+      boardState[value].occupied = true;
     });
     activePiece = undefined;
+    console.log("Piece has NOT been moved down");
   } else {
-    activePiece.shape = activePiece.shape.map((value) => {
-      boardState.forEach((cell) => {
-        if (cell.id === value) {
-          cell.color = "black";
-        }
-      });
-      const newValue = value + 10;
-      return newValue;
+    console.log("NO COLLIDE ON NEXT MOVE");
+    activePiece.shape.forEach((value) => {
+      boardState[value].occupied = false;
+      boardState[value].color = "black";
     });
+    activePiece.shape = activePiece.shape.map((cell) => cell + 10);
+    activePiece.shape.forEach((value) => {
+      boardState[value].occupied = true;
+      boardState[value].color = activePiece.color;
+    });
+    console.log("Piece has been moved down");
   }
+}
+
+function updateBoard() {
+  console.log("update board has run");
+  boardState.forEach((cell) => {
+    const cellDiv = document.getElementById(cell.id);
+    cellDiv.style.backgroundColor = cell.color;
+  });
 }
