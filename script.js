@@ -19,7 +19,7 @@ const shapes = [
   {
     name: "J",
     color: "blue",
-    shape: [1 + 4, 11 + 4, 20 + 4, 21 + 4],
+    shape: [5, 15, 24, 25],
   },
   {
     name: "S",
@@ -58,7 +58,7 @@ playBtn.addEventListener("click", () => {
 function initBoardState() {
   console.log("init board state has run");
   for (let i = 0; i < 200; i++) {
-    boardState.push({ id: i, color: "black", occupied: false });
+    boardState.push({ id: i, color: "black", active: false, occupied: false });
   }
 }
 initBoardState();
@@ -87,10 +87,12 @@ function createPiece() {
 function movePieceDown() {
   console.log("move piece down has run");
   let newIndex = activePiece.shape[3] + 10;
+  // loop the values, check for collision with non-active
   if (newIndex >= 200 || boardState[newIndex].occupied) {
     console.log("YES COLLIDE ON NEXT MOVE");
     activePiece.shape.forEach((value) => {
       boardState[value].occupied = true;
+      boardState[value].active = false;
     });
     activePiece = undefined;
     console.log("Piece has NOT been moved down");
