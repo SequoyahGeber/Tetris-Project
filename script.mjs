@@ -1,3 +1,5 @@
+"use strict";
+
 import { shapes } from "./shapes.mjs";
 
 const playBtn = document.getElementById("play-btn");
@@ -25,6 +27,7 @@ function handleKeyPress(e) {
         newCellStat(value, true, true, "black");
       });
       activePiece.shape = activePiece.shape.map((value) => (value += amt));
+      console.log("moved by: ", amt, " active piece now has: ", activePiece.shape);
       updateBoard();
     }
   }
@@ -33,8 +36,10 @@ function handleKeyPress(e) {
   switch (key) {
     case "ArrowLeft":
       movePiece(-1);
+      break;
     case "ArrowRight":
       movePiece(1);
+      break;
   }
 }
 
