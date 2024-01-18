@@ -1,6 +1,7 @@
 import { shapes } from "./shapes.mjs";
 
 const playBtn = document.getElementById("play-btn");
+document.addEventListener("keydown", handleKeyPress);
 
 let boardState = [];
 let activePiece = undefined;
@@ -16,6 +17,26 @@ playBtn.addEventListener("click", () => {
   }
   started = !started;
 });
+
+function handleKeyPress(e) {
+  function movePiece(amt) {
+    if (activePiece !== undefined) {
+      activePiece.shape.forEach((value) => {
+        newCellStat(value, true, true, "black");
+      });
+      activePiece.shape = activePiece.shape.map((value) => (value += amt));
+      updateBoard();
+    }
+  }
+  const key = e.key;
+  console.log("key pressed: ", key);
+  switch (key) {
+    case "ArrowLeft":
+      movePiece(-1);
+    case "ArrowRight":
+      movePiece(1);
+  }
+}
 
 function initBoardState() {
   console.log("init board state has run");
@@ -46,13 +67,15 @@ function createPiece() {
   return randomShape;
 }
 
+function newCellStat(val, occ, act, colo) {
+  boardState[val].occupied = occ;
+  boardState[val].active = act;
+  boardState[val].color = colo;
+}
+
 function movePieceDown() {
   console.log("move piece down has run");
-  function newCellStat(val, occ, act, colo) {
-    boardState[val].occupied = occ;
-    boardState[val].active = act;
-    boardState[val].color = colo;
-  }
+
   if (
     activePiece.shape.some((value) => {
       const newIndex = value + 10;
@@ -73,7 +96,7 @@ function movePieceDown() {
     activePiece.shape.forEach((value) => {
       newCellStat(value, false, false, "black");
     });
-    activePiece.shape = activePiece.shape.map((cell) => cell + 10);
+    activePiece.shape = activePiece.shape.map((value) => value + 10);
     activePiece.shape.forEach((value) => {
       newCellStat(value, true, true, activePiece.color);
     });
