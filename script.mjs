@@ -48,32 +48,34 @@ function createPiece() {
 
 function movePieceDown() {
   console.log("move piece down has run");
+  function newCellStat(val, occ, act, colo) {
+    boardState[val].occupied = occ;
+    boardState[val].active = act;
+    boardState[val].color = colo;
+  }
   if (
     activePiece.shape.some((value) => {
       const newIndex = value + 10;
-      return (newIndex >= 200 || (boardState[newIndex].occupied && !boardState[newIndex].active))
+      return (
+        newIndex >= 200 ||
+        (boardState[newIndex].occupied && !boardState[newIndex].active)
+      );
     })
-  )
-  {
+  ) {
     console.log("YES COLLIDE ON NEXT MOVE");
     activePiece.shape.forEach((value) => {
-      boardState[value].occupied = true;
-      boardState[value].active = false;
+      newCellStat(value, true, false, activePiece.color);
     });
     activePiece = undefined;
     console.log("Piece has NOT been moved down");
   } else {
     console.log("NO COLLIDE ON NEXT MOVE");
     activePiece.shape.forEach((value) => {
-      boardState[value].occupied = false;
-      boardState[value].active = false;
-      boardState[value].color = "black";
+      newCellStat(value, false, false, "black");
     });
     activePiece.shape = activePiece.shape.map((cell) => cell + 10);
     activePiece.shape.forEach((value) => {
-      boardState[value].occupied = true;
-      boardState[value].active = true;
-      boardState[value].color = activePiece.color;
+      newCellStat(value, true, true, activePiece.color);
     });
     console.log("Piece has been moved down");
   }
