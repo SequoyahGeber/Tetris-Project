@@ -20,7 +20,27 @@ let shapes = [
     name: "J",
     color: "blue",
     shape: [1+4, 11+4, 20+4, 21+4],
-  }
+  },
+  {
+    name: "S",
+    color: "green",
+    shape: [4, 5, 15, 16],
+  },
+  {
+    name: "Z",
+    color: "red",
+    shape: [5, 6, 14, 15],
+  },
+  {
+    name: "I",
+    color: "cyan",
+    shape: [4, 14, 24, 34],
+  },
+  {
+    name: "O",
+    color: "yellow",
+    shape: [4, 5, 14, 15],
+  },
 ];
 
 function initPageState() {
@@ -55,6 +75,7 @@ function wrapToggle() {
 function entry() {
   console.log("entry");
   activePiece = shapes[Math.floor(Math.random() * shapes.length)];
+  renderBoard();
 }
 entry();
 
@@ -66,9 +87,7 @@ function renderBoard() {
     const cellDom = document.getElementById(cell.id);
     cellDom.style.backgroundColor = cell.color;
   });
-  window.requestAnimationFrame(renderBoard);
 }
-window.requestAnimationFrame(renderBoard);
 
 function colorBoard() {
   console.log("coloring board")
@@ -90,6 +109,9 @@ function clearBoard() {
 }
 
 function giveNewPiecePosition() {
+  if (!activePiece) {
+    activePiece = shapes[Math.floor(Math.random() * shapes.length)];
+  }
   if (activePiece.shape.some((value) => value >= 190 || occupied.includes(value + 10))) {
     console.log("getting new piece position");
     occupied = occupied.concat(activePiece.shape);
