@@ -142,7 +142,7 @@ function giveNewPiecePosition() {
     activePiece = undefined;
   } else {
     activePiece.shape = activePiece.shape.map((value) => {
-      boardState.find((cell) => {
+      boardState.forEach((cell) => {
         if (cell.id === value) {
           cell.color = "black";
         }
