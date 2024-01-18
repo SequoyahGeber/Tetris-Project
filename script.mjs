@@ -7,15 +7,18 @@ document.addEventListener("keydown", handleKeyPress);
 
 let boardState = [];
 let activePiece = undefined;
-let intervalId;
+let animationId = undefined;
+let intervalId = undefined;
 let started = false;
 
 playBtn.addEventListener("click", () => {
   console.log("play button has been clicked");
   if (!started) {
     intervalId = setInterval(gameLoop, 1000);
+    animationId = window.requestAnimationFrame(updateBoard)
   } else {
     clearInterval(intervalId);
+    window.cancelAnimationFrame(animationId)
   }
   started = !started;
 });
@@ -56,11 +59,13 @@ function gameLoop() {
   if (activePiece === undefined) {
     console.log("There was no active piece, creating one.");
     activePiece = createPiece();
+    activePiece.shape.forEach((value) => {
+      newCellStat(value, true, true, activePiece.color);
+    });
   } else {
     console.log("There was an active piece, moving it down.");
     movePieceDown();
   }
-  updateBoard();
 }
 
 function createPiece() {
@@ -80,7 +85,6 @@ function newCellStat(val, occ, act, colo) {
 
 function movePieceDown() {
   console.log("move piece down has run");
-
   if (
     activePiece.shape.some((value) => {
       const newIndex = value + 10;
@@ -115,4 +119,7 @@ function updateBoard() {
     const cellDiv = document.getElementById(cell.id);
     cellDiv.style.backgroundColor = cell.color;
   });
+  if (started) {
+    window.requestAnimationFrame(updateBoard);
+  }
 }
