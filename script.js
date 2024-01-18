@@ -2,10 +2,10 @@ const cellContainer = document.getElementById("cell-container");
 const playBtn = document.getElementById("play-btn");
 
 let boardState = [];
-let activePiece;
+let activePiece = undefined;
 let occupied = [];
 // order for shape of shapes, highest, ..., lowest.
-let shapes = [
+const shapes = [
   {
     name: "T",
     color: "purple",
@@ -19,7 +19,7 @@ let shapes = [
   {
     name: "J",
     color: "blue",
-    shape: [1+4, 11+4, 20+4, 21+4],
+    shape: [1 + 4, 11 + 4, 20 + 4, 21 + 4],
   },
   {
     name: "S",
@@ -54,31 +54,61 @@ function initPageState() {
 }
 initPageState();
 
-// document.addEventListener("keydown", handleKeyDown);
+document.addEventListener("keydown", handleKeyDown);
 playBtn.addEventListener("click", wrapToggle);
 
+let intervalId;
+let started = false;
 function wrapToggle() {
-  let intervalId;
-  let started;
   function toggleGame() {
     if (started) {
       clearInterval(intervalId);
     } else {
-      intervalId = setInterval(renderBoard, 500);
+      intervalId = setInterval(renderBoard, 1000);
     }
     started = !started;
   }
   toggleGame();
 }
-// Render board purpose is to render the board state to the DOM based on boardState
-
-function entry() {
-  activePiece = shapes[Math.floor(Math.random() * shapes.length)];
-  renderBoard();
+function handleKeyDown(e) {
+  const key = e.key;
+  function updatePos(amt) {
+    activePiece.shape = activePiece.shape.map(value => value + amt);
+    activePiece.shape.forEach(value => {
+      boardState.forEach(cell => {
+        if (cell.id === value) {
+          cell.color = "black";
+          cell.active = false;
+        }
+      });
+    });
+    renderBoard();
+  }
+  switch (key) {
+    case "ArrowLeft":
+      updatePos(-1);
+      break;
+    case "ArrowRight":
+      updatePos(1);
+      break;
+    case "ArrowDown":
+      updatePos();
+      break;
+    case "ArrowUp":
+      rotate();
+      break;
+    default:
+      break;
+  }
 }
-entry();
 
 function renderBoard() {
+  console.log(shapes);
+  if (activePiece === undefined) {
+    activePiece = JSON.parse(
+      JSON.stringify(shapes[Math.floor(Math.random() * 7)])
+    );
+  }
   giveNewPiecePosition();
   colorBoard();
   boardState.forEach((cell) => {
@@ -97,27 +127,26 @@ function colorBoard() {
   });
 }
 
-function clearBoard() {
-  boardState.forEach((cell) => {
-    cell.color = "black";
-    cell.active = false;
-  });
-}
-
 function giveNewPiecePosition() {
-  if (activePiece.shape.some((value) => value >= 190 || occupied.includes(value + 10))) {
+  if (
+    activePiece.shape.some((value) => {
+      return value >= 190 || occupied.includes(value + 10);
+    })
+  ) {
     occupied = occupied.concat(activePiece.shape);
-    for (let cell in boardState) {
-      if (boardState[cell].active) {
-        boardState[cell].active = false;
+    boardState.forEach((cell) => {
+      if (cell.active) {
+        cell.active = false;
       }
-    }
-    activePiece = null;
-    entry();
+    });
+    activePiece = undefined;
   } else {
-    console.log("moving piece down")
-    activePiece.shape = activePiece.shape.map(value => {
-      boardState.find((cell) => {if(cell.id === value){cell.color = "black"}});
+    activePiece.shape = activePiece.shape.map((value) => {
+      boardState.find((cell) => {
+        if (cell.id === value) {
+          cell.color = "black";
+        }
+      });
       const newValue = value + 10;
       return newValue;
     });
