@@ -41,6 +41,34 @@ function handleKeyPress(e) {
       );
     }
   }
+
+  function rotate90() {
+    console.log("Rotation has been called with old shape: ", activePiece.shape);
+    const pointOfRotationCellNumber = activePiece.shape[1];
+    const pointOfRotationCoords = [pointOfRotationCellNumber%10, Math.floor(pointOfRotationCellNumber/10)];
+    activePiece.shape.forEach((value) => {
+      newCellStat(value, false, false, "black");
+    })
+    activePiece.shape = activePiece.shape.map((value) => {
+      if (value === pointOfRotationCellNumber) {
+        console.log("Rotation Point", value);
+        return value;
+      } else {
+        console.log("Regular point old", value);
+        const x = value % 10;
+        const y = Math.floor(value / 10);
+        const newX = pointOfRotationCoords[0] + (y - pointOfRotationCoords[1])
+        const newY = pointOfRotationCoords[1] + (x - pointOfRotationCoords[0])
+        console.log("Regular point new", value);
+        return newY * 10 + newX
+      }
+    })
+    console.log("Rotation has been completed with new shape: ", activePiece.shape)
+    activePiece.shape.forEach((value) => {
+      newCellStat(value, false, true, activePiece.color);
+    })
+  }
+
   const key = e.key;
   console.log("key pressed: ", key);
   switch (key) {
@@ -49,6 +77,9 @@ function handleKeyPress(e) {
       break;
     case "ArrowRight":
       movePiece(1);
+      break;
+    case "ArrowUp":
+      rotate90();
       break;
   }
 }
