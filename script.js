@@ -205,35 +205,50 @@ function setScore() {
 let currentPiece = {
   selectPiece: function () {
     this.i = Math.floor(Math.random() * 1);
-    console.log(this.i);
+
+    console.log("Current Piece: " + this.gamePieces[this.i].color);
   },
   i: 0,
-  positionx: [],
-  positiony: [],
+  positionsx: [],
+  positionsy: [],
 
-  getDisplacementx: function () {
-    const cases = [
-      [0, 0, 0],
-      [-2, -1, 0],
-      [1, 0, 1],
-      [0, 1, 2],
-      [1, 1, 2],
-      [1, -2, 0],
-      [-1, 0, 1],
+  coordinatesx: function () {
+    const pieces = [
+      [1, 1, 1, 1],
+      [(3, 1, 2, 3)],
+      [(1, 2, 1, 2)],
+      [(1, 1, 2, 3)],
+      [(1, 2, 2, 3)],
+      [(2, 3, 1, 2)],
+      [(2, 1, 2, 3)],
+      // [0, 0, 0],
+      // [-2, -1, 0],
+      // [1, 0, 1],
+      // [0, 1, 2],
+      // [1, 1, 2],
+      // [1, -2, 0],
+      // [-1, 0, 1],
     ];
-    this.displacementx = [cases[this.i]];
+    this.positionsx = [pieces[this.i]];
   },
-  getDisplacementy: function () {
-    const cases = [
-      [1, 2, 3],
-      [1, 1, 1],
-      [0, 1, 1],
-      [1, 1, 1],
-      [0, 1, 1],
-      [0, 1, 1],
-      [1, 1, 1],
+  coordinatesy: function () {
+    const pieces = [
+      [1,2,3,4],
+      [1,2,2,2],
+      [1,1,2,2],
+      [1,2,2,2],
+      [1,1,2,2],
+      [1,1,2,2],
+      [1,2,2,2],
+      // [1, 2, 3],
+      // [1, 1, 1],
+      // [0, 1, 1],
+      // [1, 1, 1],
+      // [0, 1, 1],
+      // [0, 1, 1],
+      // [1, 1, 1],
     ];
-    this.displacementy = [cases[this.i]];
+    this.positionsy = [pieces[this.i]];
   },
   gamePieces: [
     {
