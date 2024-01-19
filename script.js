@@ -205,12 +205,14 @@ function setScore() {
 let currentPiece = {
   selectPiece: function () {
     this.i = Math.floor(Math.random() * 1);
-
-    console.log("Current Piece: " + this.gamePieces[this.i].color);
+    this.color = this.gamePieces[this.i];
+    console.log("Current Piece: " + this.gamePieces[this.i]);
   },
+  color: null,
   i: 0,
   positionsx: [],
   positionsy: [],
+  gamePieces: ["cyan", "orange", "yellow", "blue", "red", "green", "purple"],
 
   coordinatesx: function () {
     const pieces = [
@@ -221,80 +223,30 @@ let currentPiece = {
       [(1, 2, 2, 3)],
       [(2, 3, 1, 2)],
       [(2, 1, 2, 3)],
-      // [0, 0, 0],
-      // [-2, -1, 0],
-      // [1, 0, 1],
-      // [0, 1, 2],
-      // [1, 1, 2],
-      // [1, -2, 0],
-      // [-1, 0, 1],
     ];
     this.positionsx = [pieces[this.i]];
   },
   coordinatesy: function () {
     const pieces = [
-      [1,2,3,4],
-      [1,2,2,2],
-      [1,1,2,2],
-      [1,2,2,2],
-      [1,1,2,2],
-      [1,1,2,2],
-      [1,2,2,2],
-      // [1, 2, 3],
-      // [1, 1, 1],
-      // [0, 1, 1],
-      // [1, 1, 1],
-      // [0, 1, 1],
-      // [0, 1, 1],
-      // [1, 1, 1],
+      [1, 2, 3, 4],
+      [1, 2, 2, 2],
+      [1, 1, 2, 2],
+      [1, 2, 2, 2],
+      [1, 1, 2, 2],
+      [1, 1, 2, 2],
+      [1, 2, 2, 2],
     ];
     this.positionsy = [pieces[this.i]];
   },
-  gamePieces: [
-    {
-      color: "cyan",
-      initialx: 1,
-      initialy: 1,
-    },
-    {
-      color: "orange",
-      initialx: 3,
-      initialy: 1,
-    },
-    {
-      color: "yellow",
-      initialx: 1,
-      initialy: 1,
-    },
-    {
-      color: "blue",
-      initialx: 1,
-      initialy: 1,
-    },
-    {
-      color: "red",
-      initialx: 1,
-      initialy: 1,
-    },
-    {
-      color: "green",
-      initialx: 2,
-      initialy: 1,
-    },
-    {
-      color: "purple",
-      initialx: 2,
-      initialy: 1,
-    },
-  ],
 };
 
 function renderGrid(occupiedPositions) {
   console.log("renderGrid()");
+  for (i = 0; i <= occupiedPositions[i].length; i++) {}
   for (i = 0; i <= 3; i++) {
-    document.getElementById(currentPiece.positionx[i]).style.backgroundColor =
+    document.getElementById(currentPiece.positionsx[i]).style.backgroundColor =
       currentPiece.color;
-    document.getElementById(currentPiece.positiony[i]).style.backgroundColor =
+    document.getElementById(currentPiece.positionsy[i]).style.backgroundColor =
       currentPiece.color;
   }
 }
@@ -314,29 +266,39 @@ function savePositions(occupiedPositions) {
 function saveGrid() {
   console.log("saveGrid()");
   savePositions(occupiedPositions);
-  let occupiedPositions = {
+  let occupiedPositionsx = {
     cyanx: [],
-    cyany: [],
 
     orangex: [],
-    orangey: [],
 
     yellowx: [],
-    yellowy: [],
 
     bluex: [],
-    bluey: [],
 
     redx: [],
-    redy: [],
 
     greenx: [],
-    greeny: [],
 
     purplex: [],
+  };
+  renderGrid(occupiedPositionsx);
+
+  let occupiedPositionsy = {
+    cyany: [],
+
+    orangey: [],
+
+    yellowy: [],
+
+    bluey: [],
+
+    redy: [],
+
+    greeny: [],
+
     purpley: [],
   };
-  renderGrid(occupiedPositions);
+  renderGrid(occupiedPositionsy);
 }
 
 function checkCollion() {
