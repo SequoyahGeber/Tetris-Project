@@ -204,8 +204,11 @@ function setScore() {
 
 let currentPiece = {
   selectPiece: function () {
-    this.i = Math.floor(Math.random() * 1);
+    this.i = Math.floor(Math.random() * 7);
     this.color = this.gamePieces[this.i];
+    this.positionsx = this.piecesx[this.i];
+    this.positionsy = this.piecesy[this.i];
+
     console.log("Current Piece: " + this.gamePieces[this.i]);
   },
   color: null,
@@ -213,46 +216,45 @@ let currentPiece = {
   positionsx: [],
   positionsy: [],
   gamePieces: ["cyan", "orange", "yellow", "blue", "red", "green", "purple"],
-
-  coordinatesx: function () {
-    const pieces = [
-      [1, 1, 1, 1],
-      [(3, 1, 2, 3)],
-      [(1, 2, 1, 2)],
-      [(1, 1, 2, 3)],
-      [(1, 2, 2, 3)],
-      [(2, 3, 1, 2)],
-      [(2, 1, 2, 3)],
-    ];
-    this.positionsx = [pieces[this.i]];
-  },
-  coordinatesy: function () {
-    const pieces = [
-      [1, 2, 3, 4],
-      [1, 2, 2, 2],
-      [1, 1, 2, 2],
-      [1, 2, 2, 2],
-      [1, 1, 2, 2],
-      [1, 1, 2, 2],
-      [1, 2, 2, 2],
-    ];
-    this.positionsy = [pieces[this.i]];
-  },
+  piecesx: [
+    [1, 1, 1, 1],
+    [3, 1, 2, 3],
+    [1, 2, 1, 2],
+    [1, 1, 2, 3],
+    [1, 2, 2, 3],
+    [2, 3, 1, 2],
+    [2, 1, 2, 3],
+  ],
+  piecesy: [
+    [1, 2, 3, 4],
+    [1, 2, 2, 2],
+    [1, 1, 2, 2],
+    [1, 2, 2, 2],
+    [1, 1, 2, 2],
+    [1, 1, 2, 2],
+    [1, 2, 2, 2],
+  ],
 };
 
 function renderGrid(occupiedPositions) {
   console.log("renderGrid()");
-  for (i = 0; i <= occupiedPositions[i].length; i++) {}
+  // for (i = 0; i <= occupiedPositions[i].length; i++) {}
   for (i = 0; i <= 3; i++) {
-    document.getElementById(currentPiece.positionsx[i]).style.backgroundColor =
-      currentPiece.color;
-    document.getElementById(currentPiece.positionsy[i]).style.backgroundColor =
-      currentPiece.color;
+    let selector = (currentPiece.positionsx[i] +=
+      currentPiece.positionsy[i] - 1);
+    console.log("Position: " + selector);
+    let query = document.querySelector(
+      "#wrapper > div.gameContainer > div > div:nth-child(" + selector + ")"
+    );
+    query.style.backgroundColor = currentPiece.color;
   }
 }
 
 function move() {
   checkCollion();
+  for (i = 0; i <= 4; i++) {
+    currentPiece.positionsy[i] += 1;
+  }
 
   renderGrid();
 }
