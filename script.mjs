@@ -35,7 +35,7 @@ function handleKeyPress(e) {
         );
       })
     ) {
-      console.log("Out of bound");
+      console.log("Out of bound or no piece or collide on next move");
       return;
     } else {
       activePiece.shape.forEach((value) => {
@@ -56,19 +56,12 @@ function handleKeyPress(e) {
 
   function rotate90() {
     console.log("Rotation has been called with old shape: ", activePiece.shape);
-    if (activePiece.name === "O") {
-      console.log("Piece is square no rotation allowed");
-      return;
-    }
     const pointOfRotationCellNumber = activePiece.shape[1];
     const pointOfRotationCoords = [
       pointOfRotationCellNumber % 10,
       Math.floor(pointOfRotationCellNumber / 10),
     ];
-    activePiece.shape.forEach((value) => {
-      newCellStat(value, false, false, "black");
-    });
-    activePiece.shape = activePiece.shape.map((value) => {
+    let tryShape = activePiece.shape.map((value) => {
       if (value === pointOfRotationCellNumber) {
         console.log("Rotation Point", value);
         return value;
@@ -82,17 +75,39 @@ function handleKeyPress(e) {
         return newY * 10 + newX;
       }
     });
-    console.log(
-      "Rotation has been completed with new shape: ",
-      activePiece.shape
-    );
-    activePiece.shape.forEach((value) => {
-      newCellStat(value, false, true, activePiece.color);
-    });
+    if (activePiece.name === "O") {
+      console.log("Piece is square no rotation allowed");
+      return;
+    } else if (
+      tryShape.some((value) => {
+        return (
+          value < 0 ||
+          value > 199 ||
+          (boardState[value].occupied && !boardState[value].active)
+        );
+      })
+    ) {
+      console.log("piece will collide on next move not rotation allowed");
+      return;
+    } else {
+      activePiece.shape.forEach((value) => {
+        newCellStat(value, false, false, "black");
+      });
+      activePiece.shape = tryShape;
+      console.log(
+        "Rotation has been completed with new shape: ",
+        activePiece.shape
+      );
+      activePiece.shape.forEach((value) => {
+        newCellStat(value, false, true, activePiece.color);
+      });
+    }
   }
 
   const key = e.key;
+
   console.log("key pressed: ", key);
+
   switch (key) {
     case "ArrowLeft":
       movePiece(-1);
