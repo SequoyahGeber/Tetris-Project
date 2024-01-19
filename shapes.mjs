@@ -2,7 +2,7 @@ export const shapes = [
   {
     name: "T",
     color: "purple",
-    shape: [5, 14, 15, 16],
+    shape: [5, 15, 14, 16],
   },
   {
     name: "L",
@@ -17,12 +17,12 @@ export const shapes = [
   {
     name: "S",
     color: "green",
-    shape: [4, 5, 15, 16],
+    shape: [4, 14, 5, 13],
   },
   {
     name: "Z",
     color: "red",
-    shape: [5, 6, 14, 15],
+    shape: [4, 15, 5, 16],
   },
   {
     name: "I",

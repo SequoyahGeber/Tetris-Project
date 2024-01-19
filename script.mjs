@@ -25,7 +25,19 @@ playBtn.addEventListener("click", () => {
 
 function handleKeyPress(e) {
   function movePiece(amt) {
-    if (activePiece !== undefined) {
+    if (
+      activePiece === undefined ||
+      activePiece.shape.some((value) => {
+        return (
+          (amt < 0 && (value + amt) % 10 === 9) ||
+          (amt > 0 && (value + amt) % 10 === 0) ||
+          (boardState[value + amt].occupied && !boardState[value + amt].active)
+        );
+      })
+    ) {
+      console.log("Out of bound");
+      return;
+    } else {
       activePiece.shape.forEach((value) => {
         newCellStat(value, true, true, "black");
       });
@@ -44,11 +56,18 @@ function handleKeyPress(e) {
 
   function rotate90() {
     console.log("Rotation has been called with old shape: ", activePiece.shape);
+    if (activePiece.name === "O") {
+      console.log("Piece is square no rotation allowed");
+      return;
+    }
     const pointOfRotationCellNumber = activePiece.shape[1];
-    const pointOfRotationCoords = [pointOfRotationCellNumber%10, Math.floor(pointOfRotationCellNumber/10)];
+    const pointOfRotationCoords = [
+      pointOfRotationCellNumber % 10,
+      Math.floor(pointOfRotationCellNumber / 10),
+    ];
     activePiece.shape.forEach((value) => {
       newCellStat(value, false, false, "black");
-    })
+    });
     activePiece.shape = activePiece.shape.map((value) => {
       if (value === pointOfRotationCellNumber) {
         console.log("Rotation Point", value);
@@ -57,16 +76,19 @@ function handleKeyPress(e) {
         console.log("Regular point old", value);
         const x = value % 10;
         const y = Math.floor(value / 10);
-        const newX = pointOfRotationCoords[0] + (y - pointOfRotationCoords[1])
-        const newY = pointOfRotationCoords[1] + (x - pointOfRotationCoords[0])
+        const newX = pointOfRotationCoords[0] - (y - pointOfRotationCoords[1]);
+        const newY = pointOfRotationCoords[1] + (x - pointOfRotationCoords[0]);
         console.log("Regular point new", value);
-        return newY * 10 + newX
+        return newY * 10 + newX;
       }
-    })
-    console.log("Rotation has been completed with new shape: ", activePiece.shape)
+    });
+    console.log(
+      "Rotation has been completed with new shape: ",
+      activePiece.shape
+    );
     activePiece.shape.forEach((value) => {
       newCellStat(value, false, true, activePiece.color);
-    })
+    });
   }
 
   const key = e.key;
