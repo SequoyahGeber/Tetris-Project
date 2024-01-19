@@ -176,7 +176,7 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
   if (started !== true) {
-    moveTimer = setInterval(renderGrid, 100);
+    moveTimer = setInterval(move, 500);
     started = true;
     console.log("Game Started");
   }
@@ -202,65 +202,103 @@ function setScore() {
   document.getElementById("score").innerText = newScore;
 }
 
-const gamePieces = [
-  {
-    color: "cyan",
-    initialx: 1,
-    initialy: 1,
-  },
-  {
-    color: "orange",
-    initialx: 3,
-    initialy: 1,
-  },
-  {
-    color: "yellow",
-    initialx: 1,
-    initialy: 1,
-  },
-  {
-    color: "blue",
-    initialx: 1,
-    initialy: 1,
-  },
-  {
-    color: "red",
-    initialx: 1,
-    initialy: 1,
-  },
-  {
-    color: "green",
-    initialx: 2,
-    initialy: 1,
-  },
-  {
-    color: "purple",
-    initialx: 2,
-    initialy: 1,
-  },
-];
-
 let currentPiece = {
-  type: gamePieces[i].color,
-  x: (gamePieces[i].initialx += displacement),
-  y: (gamePieces[i].initialy += displacement),
+  selectPiece: function () {
+    this.i = Math.floor(Math.random() * 1);
+    console.log(this.i);
+  },
+  i: 0,
+  positionx: [],
+  positiony: [],
+
+  getDisplacementx: function () {
+    const cases = [
+      [0, 0, 0],
+      [-2, -1, 0],
+      [1, 0, 1],
+      [0, 1, 2],
+      [1, 1, 2],
+      [1, -2, 0],
+      [-1, 0, 1],
+    ];
+    this.displacementx = [cases[this.i]];
+  },
+  getDisplacementy: function () {
+    const cases = [
+      [1, 2, 3],
+      [1, 1, 1],
+      [0, 1, 1],
+      [1, 1, 1],
+      [0, 1, 1],
+      [0, 1, 1],
+      [1, 1, 1],
+    ];
+    this.displacementy = [cases[this.i]];
+  },
+  gamePieces: [
+    {
+      color: "cyan",
+      initialx: 1,
+      initialy: 1,
+    },
+    {
+      color: "orange",
+      initialx: 3,
+      initialy: 1,
+    },
+    {
+      color: "yellow",
+      initialx: 1,
+      initialy: 1,
+    },
+    {
+      color: "blue",
+      initialx: 1,
+      initialy: 1,
+    },
+    {
+      color: "red",
+      initialx: 1,
+      initialy: 1,
+    },
+    {
+      color: "green",
+      initialx: 2,
+      initialy: 1,
+    },
+    {
+      color: "purple",
+      initialx: 2,
+      initialy: 1,
+    },
+  ],
 };
 
-function move() {
-  checkCollion()
+function renderGrid(occupiedPositions) {
+  console.log("renderGrid()");
+  for (i = 0; i <= 3; i++) {
+    document.getElementById(currentPiece.positionx[i]).style.backgroundColor =
+      currentPiece.color;
+    document.getElementById(currentPiece.positiony[i]).style.backgroundColor =
+      currentPiece.color;
+  }
+}
 
+function move() {
+  checkCollion();
+
+  renderGrid();
 }
 
 function savePositions(occupiedPositions) {
   console.log("savePositions()");
-  occupiedPositions[currentPiece.type].push(currentPiece.x)
-  occupiedPositions[currentPiece.type].push(currentPiece.y)
-
+  occupiedPositions[currentPiece.type].push(currentPiece.x);
+  occupiedPositions[currentPiece.type].push(currentPiece.y);
 }
 
 function saveGrid() {
   console.log("saveGrid()");
-  savePositions(occupiedPositions)
+  savePositions(occupiedPositions);
   let occupiedPositions = {
     cyanx: [],
     cyany: [],
@@ -286,11 +324,9 @@ function saveGrid() {
   renderGrid(occupiedPositions);
 }
 
-function renderGrid(occupiedPositions) {
-  console.log("renderGrid()");
-}
-
 function checkCollion() {
-  saveGrid()
-
+  saveGrid();
+  if (collided) {
+    currentPiece.selectPiece();
+  }
 }
