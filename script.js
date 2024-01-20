@@ -171,6 +171,8 @@
 // document.addEventListener("keydown", handleKeyDown);
 
 //REWRITE OF SYSTEMS
+
+let started;
 let startButton = document.getElementById("startButton");
 startButton.addEventListener("click", startGame);
 
@@ -209,10 +211,24 @@ let currentPiece = {
     this.positionsx = this.piecesx[this.i];
     this.positionsy = this.piecesy[this.i];
 
+    // let randomStart = Math.floor(Math.random() * 9);
+    // for (let f = 4; f >= 0; f--) {
+    //   this.positionsx[f] += randomStart;
+
+    //   if (this.positionsx[f] >= 10) {
+    //     this.positionsx[f] -= 1;
+    //   }
+    // }
+
+    // for (j = 0; j <= 4; j++) {
+    //   this.positionsx[j] += randomStart;
+    // }
+
     console.log("Current Piece: " + this.gamePieces[this.i]);
+    console.log(this.positionsx);
   },
   color: null,
-  i: 0,
+  i: null,
   positionsx: [],
   positionsy: [],
   gamePieces: ["cyan", "orange", "yellow", "blue", "red", "green", "purple"],
@@ -238,23 +254,27 @@ let currentPiece = {
 
 function renderGrid(occupiedPositions) {
   console.log("renderGrid()");
+  let grid = document.querySelector("#wrapper > div.gameContainer > div");
+  let gridCells = grid.querySelectorAll("*");
+  for (i = 0; i < gridCells.length; i++) {
+    let cell = gridCells[i];
+    cell.style.backgroundColor = "black";
+  }
   // for (i = 0; i <= occupiedPositions[i].length; i++) {}
   for (i = 0; i <= 3; i++) {
     let selector =
       ".row" + currentPiece.positionsy[i] + ".col" + currentPiece.positionsx[i];
     let query = document.querySelector(selector);
-    console.log(query);
     query.style.backgroundColor = currentPiece.color;
   }
 }
 
 function move() {
+  renderGrid();
   checkCollion();
-  for (i = 0; i <= 4; i++) {
+  for (i = 0; i <= 3; i++) {
     currentPiece.positionsy[i] += 1;
   }
-
-  renderGrid();
 }
 
 function savePositions(occupiedPositions) {
@@ -307,3 +327,4 @@ function checkCollion() {
     currentPiece.selectPiece();
   }
 }
+currentPiece.selectPiece();
