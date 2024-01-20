@@ -240,12 +240,10 @@ function renderGrid(occupiedPositions) {
   console.log("renderGrid()");
   // for (i = 0; i <= occupiedPositions[i].length; i++) {}
   for (i = 0; i <= 3; i++) {
-    let selector = (currentPiece.positionsx[i] +=
-      currentPiece.positionsy[i] - 1);
-    console.log("Position: " + selector);
-    let query = document.querySelector(
-      "#wrapper > div.gameContainer > div > div:nth-child(" + selector + ")"
-    );
+    let selector =
+      ".row" + currentPiece.positionsy[i] + ".col" + currentPiece.positionsx[i];
+    let query = document.querySelector(selector);
+    console.log(query);
     query.style.backgroundColor = currentPiece.color;
   }
 }
