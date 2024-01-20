@@ -1,147 +1,3 @@
-// let gamePieces = [0, 1, 2, 3, 4, 5, 6];
-// let position = {
-//   pos1: null,
-//   pos2: null,
-//   pos3: null,
-//   pos4: null,
-// };
-
-// let currentPiece = null;
-// let pieceColor = null;
-// let started;
-// let score = 0;
-
-// intervalId = null;
-
-// function pieceMove() {
-//   console.log("Moved");
-//   if (
-//     Object.values(position).some((pos) => {
-//       return occupied.includes(pos + 10);
-//     })
-//   ) {
-//     saveGrid();
-//   }
-
-//   if (Object.values(position).some((pos) => pos >= 191)) {
-//     saveGrid();
-//   } else if (currentPiece !== null) {
-//     // resetGrid();
-//     updateGrid();
-//     for (let pos in position) {
-//       position[pos] += 10;
-//       document.getElementById(position[pos]).style.backgroundColor = pieceColor;
-//     }
-//   }
-// }
-
-// function setPiece() {
-//   position = { pos1: null, pos2: null, pos3: null, pos4: null };
-//   currentPiece = Math.floor(Math.random() * 7);
-
-//   const pieces = [
-//     [1, 11, 21, 22], //J
-//     [1, 11, 21, 12], //L
-//     [1, 2, 11, 12], //O
-//     [1, 11, 21, 31], //I
-//     [2, 11, 12, 21], //S
-//     [1, 11, 12, 21], //T
-//     [1, 11, 12, 22], //Z
-//   ];
-
-//   const possiblePieceColors = [
-//     "blue",
-//     "orange",
-//     "yellow",
-//     "cyan",
-//     "green",
-//     "purple",
-//     "red",
-//   ];
-
-//   function computePiece(randomNumberIndexNumber) {
-//     const randomizeStart = Math.floor(Math.random() * 9);
-//     pieceColor = possiblePieceColors[randomNumberIndexNumber];
-//     let piecePositions = pieces[randomNumberIndexNumber];
-//     let i = 0;
-//     for (let pos in position) {
-//       const newComputedPosition = piecePositions[i] - 10 + randomizeStart;
-//       position[pos] = newComputedPosition;
-//       i++;
-//     }
-//   }
-//   computePiece(currentPiece);
-// }
-// setPiece();
-
-// function resetGrid() {
-//   gridCells = document.getElementsByClassName("gridCell");
-
-//   cellsArray = Array.from(gridCells);
-
-//   cellsArray.forEach(function (cell) {
-//     cell.style.backgroundColor = "black";
-//   });
-// }
-
-// let orange = [];
-// let cyan = [];
-// let purple = [];
-// let blue = [];
-// let yellow = [];
-// let green = [];
-// let red = [];
-// let currentArray;
-// let colorSet;
-// let updateArray = [];
-// let colorsArray = [
-//   "orange",
-//   "cyan",
-//   "purple",
-//   "blue",
-//   "yellow",
-//   "green",
-//   "red",
-// ];
-// let colorColorArrDic = {
-//   orange: orange,
-//   cyan: cyan,
-//   purple: purple,
-//   blue: blue,
-//   yellow: yellow,
-//   green: green,
-//   red: red,
-// };
-
-// function saveGrid() {
-//   const colorArgRef = colorColorArrDic[pieceColor];
-//   colorArgRef.push(position);
-//   currentArray = colorArgRef;
-//   setPiece();
-// }
-// let occupied = [];
-// function updateGrid() {
-//   resetGrid();
-//   updateArray = [];
-//   occupied = [];
-//   updateArray.push(orange, cyan, purple, blue, yellow, green, red);
-//   console.log(updateArray);
-//   for (let i = 0; i < updateArray.length; i++) {
-//     let x = updateArray[i];
-//     let z = i;
-//     for (let j = 0; j < x.length; j++) {
-//       let y = x[j];
-//       for (let pos in y) {
-//         document.getElementById(y[pos]).style.backgroundColor = colorsArray[z];
-//         if (!occupied.includes(y[pos])) {
-//           occupied.push(y[pos]);
-//         }
-//       }
-//     }
-//   }
-//   console.log("Occupied Positions:", occupied);
-// }
-
 // function handleKeyDown(pressedKey) {
 //   const key = pressedKey.key;
 //   function updatePosition(vector) {
@@ -173,12 +29,44 @@
 //REWRITE OF SYSTEMS
 
 let started;
+let occupiedPositionsx = {
+  cyan: [],
+
+  orange: [],
+
+  yellow: [],
+
+  blue: [],
+
+  red: [],
+
+  green: [],
+
+  purple: [],
+};
+
+let occupiedPositionsy = {
+  cyan: [],
+
+  orange: [],
+
+  yellow: [],
+
+  blue: [],
+
+  red: [],
+
+  green: [],
+
+  purple: [],
+};
+let occupiedPositions = [211, 212, 213, 214, 215, 216, 217, 218, 219, 220];
 let startButton = document.getElementById("startButton");
 startButton.addEventListener("click", startGame);
 
 function startGame() {
   if (started !== true) {
-    moveTimer = setInterval(move, 500);
+    moveTimer = setInterval(move, 100);
     started = true;
     console.log("Game Started");
   }
@@ -195,14 +83,14 @@ function stopGame() {
   }
 }
 
-function calculateScore(completedLines) {
-  const scoreMultiplier = [0, 40, 100, 300, 1200];
-  score += scoreMultiplier[completedLines] || 0;
-}
+// function calculateScore(completedLines) {
+//   const scoreMultiplier = [0, 40, 100, 300, 1200];
+//   score += scoreMultiplier[completedLines] || 0;
+// }
 
-function setScore() {
-  document.getElementById("score").innerText = newScore;
-}
+// function setScore() {
+//   document.getElementById("score").innerText = newScore;
+// }
 
 let currentPiece = {
   selectPiece: function () {
@@ -252,79 +140,91 @@ let currentPiece = {
   ],
 };
 
-function renderGrid(occupiedPositions) {
-  console.log("renderGrid()");
+function clearGrid() {
   let grid = document.querySelector("#wrapper > div.gameContainer > div");
   let gridCells = grid.querySelectorAll("*");
-  for (i = 0; i < gridCells.length; i++) {
+  for (let i = 0; i < gridCells.length; i++) {
     let cell = gridCells[i];
     cell.style.backgroundColor = "black";
   }
-  // for (i = 0; i <= occupiedPositions[i].length; i++) {}
-  for (i = 0; i <= 3; i++) {
+}
+
+function renderOccupiedPositions() {
+  for (let color in occupiedPositionsy) {
+    for (let i = 0; i < occupiedPositionsx[color].length; i++) {
+      let rows = occupiedPositionsx[color][i];
+      let cols = occupiedPositionsy[color][i];
+      for (let j = 0; j < rows.length; j++) {
+        let occupiedCells = ".row" + cols[j] + ".col" + rows[j];
+        let occupiedCellsQuery = document.querySelector(occupiedCells);
+        occupiedCellsQuery.style.backgroundColor = color;
+      }
+    }
+  }
+}
+
+function renderCurrentPiece() {
+  for (let i = 0; i <= 3; i++) {
     let selector =
       ".row" + currentPiece.positionsy[i] + ".col" + currentPiece.positionsx[i];
     let query = document.querySelector(selector);
+
     query.style.backgroundColor = currentPiece.color;
   }
 }
 
-function move() {
-  renderGrid();
-  checkCollion();
-  for (i = 0; i <= 3; i++) {
-    currentPiece.positionsy[i] += 1;
-  }
+function renderGrid() {
+  clearGrid();
+  renderOccupiedPositions();
+  renderCurrentPiece();
 }
 
-function savePositions(occupiedPositions) {
+function move() {
+  checkCollision();
+}
+
+function savePositions() {
   console.log("savePositions()");
-  occupiedPositions[currentPiece.type].push(currentPiece.x);
-  occupiedPositions[currentPiece.type].push(currentPiece.y);
+  for (let i = 0; i <= 3; i++) {
+    let position = currentPiece.positionsx[i] + currentPiece.positionsy[i] * 10;
+
+    if (!occupiedPositions.includes(position)) {
+      occupiedPositions.push(position);
+    }
+  }
+
+  currentPiece.selectPiece();
 }
 
 function saveGrid() {
   console.log("saveGrid()");
-  savePositions(occupiedPositions);
-  let occupiedPositionsx = {
-    cyanx: [],
 
-    orangex: [],
-
-    yellowx: [],
-
-    bluex: [],
-
-    redx: [],
-
-    greenx: [],
-
-    purplex: [],
-  };
-  renderGrid(occupiedPositionsx);
-
-  let occupiedPositionsy = {
-    cyany: [],
-
-    orangey: [],
-
-    yellowy: [],
-
-    bluey: [],
-
-    redy: [],
-
-    greeny: [],
-
-    purpley: [],
-  };
-  renderGrid(occupiedPositionsy);
+  savePositions();
 }
 
-function checkCollion() {
-  saveGrid();
-  if (collided) {
-    currentPiece.selectPiece();
+function checkCollision() {
+  for (let i = 0; i < 4; i++) {
+    let nextRow = currentPiece.positionsy[i] + 1;
+    let nextCol = currentPiece.positionsx[i];
+
+    if (nextRow <= 20) {
+      let coord = nextCol + nextRow * 10;
+
+      if (occupiedPositions.includes(coord)) {
+        saveGrid();
+        return;
+      }
+    } else {
+      saveGrid();
+      return;
+    }
   }
+
+  for (let i = 0; i < 4; i++) {
+    currentPiece.positionsy[i] += 1;
+  }
+
+  renderGrid();
 }
+
 currentPiece.selectPiece();
