@@ -1,32 +1,45 @@
-// function handleKeyDown(pressedKey) {
-//   const key = pressedKey.key;
-//   function updatePosition(vector) {
-//     for (let pos in position) {
-//       position[pos] += vector;
-//     }
-//   }
-//   switch (key) {
-//     case "ArrowLeft":
-//       updatePosition(-1);
-//       break;
-//     case "ArrowRight":
-//       updatePosition(1);
-//       break;
-//     case "ArrowDown":
-//       updatePosition(10);
-//       break;
-//     case "a":
-//       rotatePieceLeft();
-//       break;
-//     case "d":
-//       rotatePieceRight();
-//       break;
-//   }
-// }
+function handleKeyDown(pressedKey) {
+  if (
+    pressedKey.key === "ArrowUp" ||
+    pressedKey.key === "ArrowDown" ||
+    pressedKey.key === "ArrowLeft" ||
+    pressedKey.key === "ArrowRight"
+  ) {
+    pressedKey.preventDefault();
+  }
+  const key = pressedKey.key;
+  function updatePositionx(vector) {
+    for (i = 0; i < 4; i++) {
+      currentPiece.positionsx[i] += vector;
+    }
+    renderGrid();
+  }
+  function updatePositiony(vector) {
+    for (i = 0; i < 4; i++) {
+      currentPiece.positionsy[i] += vector;
+    }
+    renderGrid();
+  }
+  switch (key) {
+    case "ArrowLeft":
+      updatePositionx(-1);
+      break;
+    case "ArrowRight":
+      updatePositionx(1);
+      break;
+    case "ArrowDown":
+      updatePositiony(1);
+      break;
+    case "a":
+      rotatePieceLeft();
+      break;
+    case "d":
+      rotatePieceRight();
+      break;
+  }
+}
 
-// document.addEventListener("keydown", handleKeyDown);
-
-//REWRITE OF SYSTEMS
+document.addEventListener("keydown", handleKeyDown);
 
 let started;
 let occupiedPositionsx = {
@@ -60,13 +73,13 @@ let occupiedPositionsy = {
 
   purple: [],
 };
-let occupiedPositions = [211, 212, 213, 214, 215, 216, 217, 218, 219, 220];
+let occupiedPositions = [];
 let startButton = document.getElementById("startButton");
 startButton.addEventListener("click", startGame);
 
 function startGame() {
   if (started !== true) {
-    moveTimer = setInterval(move, 100);
+    moveTimer = setInterval(move, 500);
     started = true;
     console.log("Game Started");
   }
@@ -94,43 +107,32 @@ function stopGame() {
 
 let currentPiece = {
   selectPiece: function () {
-    this.i = Math.floor(Math.random() * 7);
-    this.color = this.gamePieces[this.i];
-    this.positionsx = this.piecesx[this.i];
-    this.positionsy = this.piecesy[this.i];
+    piece = Math.floor(Math.random() * 7);
+    this.positionsx = [];
+    this.positionsy = [];
+    this.color = null;
+    this.color = this.gamePieces[piece];
+    this.positionsx = this.piecesx[piece];
+    this.positionsy = this.piecesy[piece];
 
-    // let randomStart = Math.floor(Math.random() * 9);
-    // for (let f = 4; f >= 0; f--) {
-    //   this.positionsx[f] += randomStart;
-
-    //   if (this.positionsx[f] >= 10) {
-    //     this.positionsx[f] -= 1;
-    //   }
-    // }
-
-    // for (j = 0; j <= 4; j++) {
-    //   this.positionsx[j] += randomStart;
-    // }
-
-    console.log("Current Piece: " + this.gamePieces[this.i]);
+    console.log("Current Piece: " + this.color);
     console.log(this.positionsx);
   },
   color: null,
-  i: null,
   positionsx: [],
   positionsy: [],
   gamePieces: ["cyan", "orange", "yellow", "blue", "red", "green", "purple"],
   piecesx: [
-    [1, 1, 1, 1],
-    [3, 1, 2, 3],
-    [1, 2, 1, 2],
-    [1, 1, 2, 3],
-    [1, 2, 2, 3],
-    [2, 3, 1, 2],
-    [2, 1, 2, 3],
+    [4, 5, 6, 7],
+    [6, 4, 5, 6],
+    [4, 5, 4, 5],
+    [4, 4, 5, 6],
+    [4, 5, 5, 6],
+    [5, 6, 4, 5],
+    [5, 4, 5, 6],
   ],
   piecesy: [
-    [1, 2, 3, 4],
+    [1, 1, 1, 1],
     [1, 2, 2, 2],
     [1, 1, 2, 2],
     [1, 2, 2, 2],
@@ -150,25 +152,29 @@ function clearGrid() {
 }
 
 function renderOccupiedPositions() {
-  for (let color in occupiedPositionsy) {
-    for (let i = 0; i < occupiedPositionsx[color].length; i++) {
-      let rows = occupiedPositionsx[color][i];
-      let cols = occupiedPositionsy[color][i];
-      for (let j = 0; j < rows.length; j++) {
-        let occupiedCells = ".row" + cols[j] + ".col" + rows[j];
-        let occupiedCellsQuery = document.querySelector(occupiedCells);
-        occupiedCellsQuery.style.backgroundColor = color;
+  if (occupiedPositions.length > 0) {
+    for (let color in occupiedPositionsx) {
+      for (let i = 0; i < occupiedPositionsy[color].length; i++) {
+        console.log(i);
+        let row = occupiedPositionsy[color][i];
+
+        let col = occupiedPositionsx[color][i];
+        console.log(row, col);
+        for (let j = 0; j < 4; j++) {
+          let cell = (row - 1) * 10 + col;
+          let selector = document.getElementById(cell);
+          selector.style.backgroundColor = color;
+          console.log(selector);
+        }
       }
     }
   }
 }
-
 function renderCurrentPiece() {
-  for (let i = 0; i <= 3; i++) {
+  for (f = 0; f < 4; f++) {
     let selector =
-      ".row" + currentPiece.positionsy[i] + ".col" + currentPiece.positionsx[i];
+      ".row" + currentPiece.positionsy[f] + ".col" + currentPiece.positionsx[f];
     let query = document.querySelector(selector);
-
     query.style.backgroundColor = currentPiece.color;
   }
 }
@@ -181,50 +187,42 @@ function renderGrid() {
 
 function move() {
   checkCollision();
-}
+  renderGrid();
 
-function savePositions() {
-  console.log("savePositions()");
-  for (let i = 0; i <= 3; i++) {
-    let position = currentPiece.positionsx[i] + currentPiece.positionsy[i] * 10;
-
-    if (!occupiedPositions.includes(position)) {
-      occupiedPositions.push(position);
-    }
+  for (let i = 0; i < 4; i++) {
+    currentPiece.positionsy[i] += 1;
   }
-
-  currentPiece.selectPiece();
 }
 
 function saveGrid() {
   console.log("saveGrid()");
 
-  savePositions();
+  for (let i = 0; i < 4; i++) {
+    let row = currentPiece.positionsy[i];
+    let col = currentPiece.positionsx[i];
+    let piece = currentPiece.color;
+    occupiedPositionsx[piece].push(col);
+    occupiedPositionsy[piece].push(row);
+    let coord = (row - 1) * 10 + col;
+    console.log(coord);
+    if (occupiedPositions.includes(coord)) {
+      occupiedPositions.push(coord);
+    }
+  }
+  currentPiece.selectPiece();
 }
 
 function checkCollision() {
   for (let i = 0; i < 4; i++) {
-    let nextRow = currentPiece.positionsy[i] + 1;
-    let nextCol = currentPiece.positionsx[i];
-
-    if (nextRow <= 20) {
-      let coord = nextCol + nextRow * 10;
-
-      if (occupiedPositions.includes(coord)) {
-        saveGrid();
-        return;
-      }
-    } else {
+    let row = currentPiece.positionsy[i];
+    let col = currentPiece.positionsx[i];
+    let coord = (row - 1) * 10 + col;
+    if (occupiedPositions.includes(coord - 10)) {
       saveGrid();
-      return;
+    } else if (row === 20) {
+      saveGrid();
     }
   }
-
-  for (let i = 0; i < 4; i++) {
-    currentPiece.positionsy[i] += 1;
-  }
-
-  renderGrid();
 }
 
 currentPiece.selectPiece();
